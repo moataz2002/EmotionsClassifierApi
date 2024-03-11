@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text Prediction</title>
+</head>
+<body>
+    <h1>Input Text</h1>
+    <form id="predictionForm">
+        <textarea id="textInput" name="text" rows="4" cols="50" required></textarea>
+        <button type="submit">Predict</button>
+    </form>
+
+    <h2 id="predictionResult" style="display: none;">Prediction Result: <span id="result"></span></h2>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            document.getElementById('result').textContent = data.prediction;
+            document.getElementById('predictionResult').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
